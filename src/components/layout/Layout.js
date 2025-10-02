@@ -1,13 +1,16 @@
 import Sidebar from './Sidebar';
 import Header from './Header';
+import styles from './layout.module.css';
 
 export default function Layout({ children }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Sidebar />
-      <div className="md:pl-64 flex flex-col flex-1">
+    <div className={styles.layout}>
+      <div className={styles.sidebar}>
+        <Sidebar />
+      </div>
+      <div className={styles.content}>
         <Header />
-        <main className="flex-1">
+        <main className={styles.main}>
           {children}
         </main>
       </div>
