@@ -16,31 +16,42 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     try {
-      setError(''); // Clear previous errors
+      setError('');
       const response = await api.login(email, password);
-      console.log(response);
-      
-      // Save token to context and localStorage
-      if (response.token && response.token.idToken) {
+  
+      console.log("Full login response:", response);
+  
+      if (response.token?.idToken) {
         login(response.token.idToken);
       }
-      
-      router.push('/dashboard');
+  
+      // Persist admin_id
+      try {
+        let adminId = response?.user?.uid
+        console.log(response.user);
+
+        if (adminId) {
+          localStorage.setItem('admin_id', String(adminId));
+        }
+      } catch (_) {
+        // ignore persistence errors silently
+      }
+  
+      router.push("/dashboard");
     } catch (err) {
-      // Handle different types of errors silently
-      if (err.message === 'Unauthorized' || err.status === 401) {
-        setError('Invalid email or password. Please try again.');
-      } else if (err.message === 'not found' || err.status === 404) {
-        setError('User not found. Please check your email.');
-      } else if (err.message === 'Network error' || err.status === 0) {
-        setError('Network error. Please check your connection and try again.');
+      if (err.message === "Unauthorized" || err.status === 401) {
+        setError("Invalid email or password. Please try again.");
+      } else if (err.message === "not found" || err.status === 404) {
+        setError("User not found. Please check your email.");
+      } else if (err.message === "Network error" || err.status === 0) {
+        setError("Network error. Please check your connection and try again.");
       } else {
-        setError('Login failed. Please try again.');
+        setError("Login failed. Please try again.");
       }
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

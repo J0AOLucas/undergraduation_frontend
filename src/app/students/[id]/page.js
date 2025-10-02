@@ -46,7 +46,6 @@ export default function StudentProfilePage() {
     const fetchNotes = async () => {
       try {
         const notesData = await api.getStudentNotes(params.id);
-        console.log(notesData);
         
         // Handle response format
         if (Array.isArray(notesData)) {
@@ -118,7 +117,6 @@ export default function StudentProfilePage() {
       setIsNoteModalOpen(true);
     } else {
       console.log(`Action: ${action} for student: ${student.id}`);
-      // TODO: Implement other action handlers
     }
   };
 

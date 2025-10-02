@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './header.module.css';
 import { useAuth } from '@/contexts/AuthContext';
+import api from '@/services/api';
 
 export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [admin, setAdmin] = useState(null);
   const { logout, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -14,6 +16,22 @@ export default function Header() {
     logout();
     router.push('/login');
   };
+
+  useEffect(() => {
+    try {
+      const storedAdminId = typeof window !== 'undefined' ? localStorage.getItem('admin_id') : null;
+      if (!storedAdminId) return;
+      const fetchAdmin = async () => {
+        try {
+          const data = await api.getAdmin(storedAdminId);
+          setAdmin(data);
+        } catch (_) {}
+      };
+      fetchAdmin();
+    } catch (_) {
+      // ignore
+    }
+  }, []);
 
   return (
     <div className={styles.header}>
@@ -67,11 +85,16 @@ export default function Header() {
             >
               <span className="sr-only">Open user menu</span>
               <div className={styles.profileAvatar}>
-                <span>JS</span>
+                <span>{(admin?.name || admin?.full_name || admin?.email || 'User')
+                  .split(' ')
+                  .filter(Boolean)
+                  .slice(0, 2)
+                  .map(part => part.charAt(0).toUpperCase())
+                  .join('')}</span>
               </div>
               <span className={styles.profileInfo}>
                 <span className={styles.profileName} aria-hidden="true">
-                  John Silva
+                  {admin?.first_name}
                 </span>
                 <svg className={styles.profileChevron} viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clipRule="evenodd" />

@@ -66,6 +66,7 @@ const api = {
     body: JSON.stringify(noteData),
   }),
   getStudentNotes: (studentId) => fetcher(`/internal_notes?student_id=${studentId}`),
+  getAdmin: (adminId) => fetcher(`/admins?admin_id=${adminId}`),
 };
 
 export default api;
