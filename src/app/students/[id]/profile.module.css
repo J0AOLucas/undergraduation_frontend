@@ -437,6 +437,56 @@
   margin: 0;
 }
 
+/* Application Progress */
+.applicationProgress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.applicationProgressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.applicationProgressTitle {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.applicationProgressValue {
+  font-size: 12px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.applicationProgressTrack {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.applicationProgressFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.applicationProgressCaption {
+  font-size: 11px;
+  color: #6b7280;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .profileHeader {

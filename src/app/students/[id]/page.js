@@ -117,6 +117,31 @@ export default function StudentProfilePage() {
     }
   };
 
+  // Application progress helpers
+  const getApplicationStages = () => (['higher_intent', 'shortlisting', 'applying', 'submitted']);
+
+  const getApplicationStageLabel = (stage) => {
+    switch (stage) {
+      case 'higher_intent':
+        return 'Higher Intent';
+      case 'shortlisting':
+        return 'Shortlisting';
+      case 'applying':
+        return 'Applying';
+      case 'submitted':
+        return 'Submitted';
+      default:
+        return 'Unknown';
+    }
+  };
+
+  const getApplicationProgressPercent = (status) => {
+    const stages = getApplicationStages();
+    const idx = Math.max(0, stages.indexOf(status));
+    const percent = ((idx + 1) / stages.length) * 100;
+    return { percent, currentIndex: idx, total: stages.length };
+  };
+
   const formatDate = (timestamp) => {
     if (!timestamp || !timestamp._seconds) return 'N/A';
     const date = new Date(timestamp._seconds * 1000);
@@ -396,6 +421,25 @@ export default function StudentProfilePage() {
                     </span>
                   </div>
                   <p className={styles.applicationUniversity}>{application.university_name || 'N/A'}</p>
+                  {/* Progress Bar */}
+                  {(() => {
+                    const { percent, currentIndex, total } = getApplicationProgressPercent(application.status);
+                    const currentLabel = getApplicationStageLabel(getApplicationStages()[currentIndex]);
+                    return (
+                      <div className={styles.applicationProgress}>
+                        <div className={styles.applicationProgressHeader}>
+                          <span className={styles.applicationProgressTitle}>Current Progress</span>
+                          <span className={styles.applicationProgressValue}>{Math.round(percent)}%</span>
+                        </div>
+                        <div className={styles.applicationProgressTrack}>
+                          <div className={styles.applicationProgressFill} style={{ width: `${percent}%` }} />
+                        </div>
+                        <div className={styles.applicationProgressCaption}>
+                          Stage {currentIndex + 1} of {total}: {currentLabel}
+                        </div>
+                      </div>
+                    );
+                  })()}
                   <div className={styles.applicationDates}>
                     <p className={styles.applicationDate}>
                       <strong>Created:</strong> {formatDate(application.created_at)}
