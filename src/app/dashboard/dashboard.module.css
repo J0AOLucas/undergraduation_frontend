@@ -313,6 +313,11 @@
   color: #065f46;
 }
 
+.studentStatusPurple {
+  background-color: #8b5cf6;
+  color: #fff;
+}
+
 .activityList {
   display: flex;
   flex-direction: column;

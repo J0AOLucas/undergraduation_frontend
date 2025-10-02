@@ -1,7 +1,41 @@
+'use client';
+
 import Layout from '@/components/layout/Layout';
 import styles from './dashboard.module.css';
+import { useEffect, useState } from 'react';
+import api from '@/services/api';
 
 export default function DashboardPage() {
+  const [students, setStudents] = useState([]);
+
+  const getStatusStyle = (status) => {
+    switch (status) {
+      case 'higher_intent':
+        return styles.studentStatusBlue;
+      case 'shortlisting':
+        return styles.studentStatusYellow;
+      case 'applying':
+        return styles.studentStatusPurple;
+      case 'submitted':
+        return styles.studentStatusGreen;
+      default:
+        return styles.studentStatusBlue;
+    }
+  };
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const studentsData = await api.getStudents();
+        setStudents(studentsData);
+      } catch (err) {
+        console.error('Failed to fetch students:', err);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
   return (
     <Layout>
       <div className={styles.dashboard}>
@@ -15,35 +49,28 @@ export default function DashboardPage() {
             <div className={styles.statCard}>
               <div className={styles.statContent}>
                 <p className={styles.statLabel}>Total Students</p>
-                <p className={styles.statValue}>1,234</p>
+                <p className={styles.statValue}>{students.filter(student => student.status !== 'archived').length}</p>
               </div>
             </div>
             
             <div className={styles.statCard}>
               <div className={styles.statContent}>
-                <p className={styles.statLabel}>Active Applications</p>
-                <p className={styles.statValue}>456</p>
-              </div>
-            </div>
-            
-            <div className={styles.statCard}>
-              <div className={`${styles.logoContainer}`}>
-                <img 
-                src="/logo.png" 
-                alt="Logo" 
-                className={styles.logo}
-              />
-              </div>
-              <div className={styles.statContent}>
-                <p className={styles.statLabel}>Today's Communications</p>
-                <p className={styles.statValue}>23</p>
+                <p className={styles.statLabel}>Shortlisting</p>
+                <p className={styles.statValue}>{students.filter(student => student.status === 'shortlisting').length}</p>
               </div>
             </div>
             
             <div className={styles.statCard}>
               <div className={styles.statContent}>
-                <p className={styles.statLabel}>Conversion Rate</p>
-                <p className={styles.statValue}>68%</p>
+                <p className={styles.statLabel}>Applying</p>
+                <p className={styles.statValue}>{students.filter(student => student.status === 'applying').length}</p>
+              </div>
+            </div>
+            
+            <div className={styles.statCard}>
+              <div className={styles.statContent}>
+                <p className={styles.statLabel}>Applied</p>
+                <p className={styles.statValue}>{students.filter(student => student.status === 'submitted').length}</p>
               </div>
             </div>
           </div>
@@ -56,8 +83,8 @@ export default function DashboardPage() {
                 <div className={styles.filterButtonContent}>
                   <div className={`${styles.filterDot} ${styles.filterDotRed}`}></div>
                   <div className={styles.filterText}>
-                    <p className={styles.filterTitle}>Students not contacted in 7 days</p>
-                    <p className={styles.filterDescription}>23 students need follow-up</p>
+                    <p className={styles.filterTitle}>Higher Intent</p>
+                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'higher_intent').length} students</p>
                   </div>
                 </div>
               </button>
@@ -66,8 +93,8 @@ export default function DashboardPage() {
                 <div className={styles.filterButtonContent}>
                   <div className={`${styles.filterDot} ${styles.filterDotGreen}`}></div>
                   <div className={styles.filterText}>
-                    <p className={styles.filterTitle}>High intent students</p>
-                    <p className={styles.filterDescription}>45 students actively applying</p>
+                    <p className={styles.filterTitle}>Shortlisting</p>
+                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'shortlisting').length} students</p>
                   </div>
                 </div>
               </button>
@@ -76,8 +103,18 @@ export default function DashboardPage() {
                 <div className={styles.filterButtonContent}>
                   <div className={`${styles.filterDot} ${styles.filterDotBlue}`}></div>
                   <div className={styles.filterText}>
-                    <p className={styles.filterTitle}>Needs essay help</p>
-                    <p className={styles.filterDescription}>12 students requesting support</p>
+                    <p className={styles.filterTitle}>Applying</p>
+                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'applying').length} students</p>
+                  </div>
+                </div>
+              </button>
+
+              <button className={styles.filterButton}>
+                <div className={styles.filterButtonContent}>
+                  <div className={`${styles.filterDot} ${styles.filterDotYellow}`}></div>
+                  <div className={styles.filterText}>
+                    <p className={styles.filterTitle}>Submitted</p>
+                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'submitted').length} students</p>
                   </div>
                 </div>
               </button>
@@ -89,50 +126,22 @@ export default function DashboardPage() {
             <div className={styles.card}>
               <h3 className={styles.cardTitle}>Recent Students</h3>
               <div className={styles.studentList}>
-                <div className={styles.studentItem}>
-                  <div className={styles.studentInfo}>
-                    <div className={`${styles.studentAvatar} ${styles.studentAvatarBlue}`}>
-                      JS
+                {students.slice(0, 3).map((student) => (
+                  <div className={styles.studentItem} key={student.id}>
+                    <div className={styles.studentInfo}>
+                      <div className={`${styles.studentAvatar} ${styles.studentAvatarBlue}`}>
+                        {student.first_name.charAt(0)}{student.last_name.charAt(0)}
+                      </div>
+                      <div className={styles.studentDetails}>
+                        <p className={styles.studentName}>{student.first_name} {student.last_name}</p>
+                        <p className={styles.studentLocation}>{student.country} • Grade: {student.grade}</p>
+                      </div>
                     </div>
-                    <div className={styles.studentDetails}>
-                      <p className={styles.studentName}>John Silva</p>
-                      <p className={styles.studentLocation}>Brazil • Application in progress</p>
-                    </div>
+                    <span className={`${styles.studentStatus} ${getStatusStyle(student.status)}`}>
+                      {student.status.replace('_', ' ')}
+                    </span>
                   </div>
-                  <span className={`${styles.studentStatus} ${styles.studentStatusBlue}`}>
-                    Applying
-                  </span>
-                </div>
-                
-                <div className={styles.studentItem}>
-                  <div className={styles.studentInfo}>
-                    <div className={`${styles.studentAvatar} ${styles.studentAvatarGreen}`}>
-                      MS
-                    </div>
-                    <div className={styles.studentDetails}>
-                      <p className={styles.studentName}>Maria Santos</p>
-                      <p className={styles.studentLocation}>Mexico • Waiting for documents</p>
-                    </div>
-                  </div>
-                  <span className={`${styles.studentStatus} ${styles.studentStatusYellow}`}>
-                    Shortlisting
-                  </span>
-                </div>
-                
-                <div className={styles.studentItem}>
-                  <div className={styles.studentInfo}>
-                    <div className={`${styles.studentAvatar} ${styles.studentAvatarPurple}`}>
-                      AC
-                    </div>
-                    <div className={styles.studentDetails}>
-                      <p className={styles.studentName}>Ana Costa</p>
-                      <p className={styles.studentLocation}>Colombia • Essay review needed</p>
-                    </div>
-                  </div>
-                  <span className={`${styles.studentStatus} ${styles.studentStatusGreen}`}>
-                    High Intent
-                  </span>
-                </div>
+                ))}
               </div>
             </div>
 
