@@ -1,10 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './header.module.css';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function Header() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const { logout, isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
 
   return (
     <div className={styles.header}>
@@ -78,9 +87,13 @@ export default function Header() {
                 <a href="#" className={styles.profileDropdownItem}>
                   Settings
                 </a>
-                <a href="/login" className={styles.profileDropdownItem}>
+                <button 
+                  onClick={handleLogout}
+                  className={styles.profileDropdownItem}
+                  style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                >
                   Sign out
-                </a>
+                </button>
               </div>
             )}
           </div>

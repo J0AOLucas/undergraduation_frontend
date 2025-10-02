@@ -1,10 +1,21 @@
 async function fetcher(url, options = {}) {
   try {
+    // Get token from localStorage
+    const token = localStorage.getItem('auth_token');
+    
+    // Prepare headers
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    
+    // Add Authorization header if token exists
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    
     // Use relative URL to go through Next.js proxy
     const res = await fetch(`/api${url}`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       ...options,
     });
 

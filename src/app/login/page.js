@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 import api from '@/services/api';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -11,12 +12,19 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { login } = useAuth();
 
-  const login = async () => {
+  const handleLogin = async () => {
     try {
       setError(''); // Clear previous errors
       const response = await api.login(email, password);
       console.log(response);
+      
+      // Save token to context and localStorage
+      if (response.token && response.token.idToken) {
+        login(response.token.idToken);
+      }
+      
       router.push('/dashboard');
     } catch (err) {
       // Handle different types of errors silently
@@ -49,7 +57,7 @@ export default function LoginPage() {
     }
     
     setIsLoading(true);
-    login();
+    await handleLogin();
   };
 
   const handleInputChange = (setter) => (e) => {
@@ -153,11 +161,11 @@ export default function LoginPage() {
           </div>
           
           <div className={styles.demoCredentials}>
-            <p>Email: admin@undergraduation.com</p>
-            <p>Password: password123</p>
+            <p>Email: lucasrpg.silva@gmail.com</p>
+            <p>Password: 123456</p>
           </div>
-        </form>
-      </div>
+          </form>
+        </div>
     </div>
   );
-}
+};
