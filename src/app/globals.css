@@ -1,12 +1,12 @@
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #bababa;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
-    --foreground: #444444;
+    --foreground: #b0b0b0;
   }
 }
 
@@ -28,6 +28,24 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+/* Reset input styles */
+input, select, textarea {
+  color: inherit;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Force input text color */
+input[type="text"], input[type="email"], input[type="password"], select {
+  background-color: white !important;
 }
 
 a {
