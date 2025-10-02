@@ -103,7 +103,7 @@ export default function StudentsPage() {
       case 'applying':
         return styles.statusApplying;
       case 'submitted':
-        return styles.statusSubmitted;
+        return styles.statusApplying;
       default:
         return styles.statusHigherIntent;
     }
