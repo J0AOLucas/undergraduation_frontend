@@ -67,6 +67,7 @@ const api = {
   }),
   getStudentNotes: (studentId) => fetcher(`/internal_notes?student_id=${studentId}`),
   getAdmin: (adminId) => fetcher(`/admins?admin_id=${adminId}`),
+  getApplications: (studentId) => fetcher(`/applications?student_id=${studentId}`),
 };
 
 export default api;

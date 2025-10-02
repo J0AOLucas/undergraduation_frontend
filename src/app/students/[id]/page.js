@@ -13,6 +13,7 @@ export default function StudentProfilePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
+  const [applications, setApplications] = useState([]);
   const router = useRouter();
   const params = useParams();
 
@@ -61,10 +62,30 @@ export default function StudentProfilePage() {
       }
     };
 
+    const fetchApplications = async () => {
+      try {
+        const applicationsData = await api.getApplications(params.id);
+        
+        // Handle response format
+        if (Array.isArray(applicationsData)) {
+          setApplications(applicationsData);
+        } else if (applicationsData && Array.isArray(applicationsData.data)) {
+          setApplications(applicationsData.data);
+        } else {
+          setApplications([]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch applications:', err);
+        setApplications([]);
+      }
+    };
+
     if (params.id) {
       fetchNotes();
+      fetchApplications();
     }
   }, [params.id]);
+
 
   const getStatusStyle = (status) => {
     switch (status) {
@@ -354,6 +375,40 @@ export default function StudentProfilePage() {
                 ))
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Applications */}
+        <div className={styles.applicationsSection}>
+          <h3 className={styles.applicationsTitle}>Applications</h3>
+          <div className={styles.applicationsList}>
+            {applications.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
+                <p>No applications yet.</p>
+              </div>
+            ) : (
+              applications.map((application) => (
+                <div key={application.id} className={styles.applicationItem}>
+                  <div className={styles.applicationHeader}>
+                    <h4 className={styles.applicationProgram}>{application.program || 'Unknown Program'}</h4>
+                    <span className={`${styles.applicationStatus} ${getStatusStyle(application.status)}`}>
+                      {application.status ? application.status.replace('_', ' ') : 'Unknown'}
+                    </span>
+                  </div>
+                  <p className={styles.applicationUniversity}>{application.university_name || 'N/A'}</p>
+                  <div className={styles.applicationDates}>
+                    <p className={styles.applicationDate}>
+                      <strong>Created:</strong> {formatDate(application.created_at)}
+                    </p>
+                    {application.submittedAt && (
+                      <p className={styles.applicationDate}>
+                        <strong>Submitted:</strong> {formatDate(application.submittedAt)}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
