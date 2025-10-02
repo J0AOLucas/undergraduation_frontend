@@ -96,7 +96,7 @@ export default function StudentsPage() {
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case 'higher_intent':
+      case 'exploring':
         return styles.statusHigherIntent;
       case 'shortlisting':
         return styles.statusShortlisting;
@@ -111,7 +111,7 @@ export default function StudentsPage() {
 
   const getAvatarStyle = (status) => {
     switch (status) {
-      case 'higher_intent':
+      case 'exploring':
         return styles.studentAvatarBlue;
       case 'shortlisting':
         return styles.studentAvatarYellow;
@@ -192,7 +192,7 @@ export default function StudentsPage() {
                   onChange={(e) => handleFilterChange('status', e.target.value)}
                 >
                   <option value="">All Status</option>
-                  <option value="higher_intent">Higher Intent</option>
+                  <option value="exploring">Higher Intent</option>
                   <option value="shortlisting">Shortlisting</option>
                   <option value="applying">Applying</option>
                   <option value="submitted">Submitted</option>

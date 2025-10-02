@@ -89,7 +89,7 @@ export default function StudentProfilePage() {
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case 'higher_intent':
+      case 'exploring':
         return styles.statusHigherIntent;
       case 'shortlisting':
         return styles.statusShortlisting;
@@ -104,7 +104,7 @@ export default function StudentProfilePage() {
 
   const getAvatarStyle = (status) => {
     switch (status) {
-      case 'higher_intent':
+      case 'exploring':
         return styles.profileAvatarBlue;
       case 'shortlisting':
         return styles.profileAvatarYellow;
@@ -118,11 +118,11 @@ export default function StudentProfilePage() {
   };
 
   // Application progress helpers
-  const getApplicationStages = () => (['higher_intent', 'shortlisting', 'applying', 'submitted']);
+  const getApplicationStages = () => (['exploring', 'shortlisting', 'applying', 'submitted']);
 
   const getApplicationStageLabel = (stage) => {
     switch (stage) {
-      case 'higher_intent':
+      case 'exploring':
         return 'Higher Intent';
       case 'shortlisting':
         return 'Shortlisting';

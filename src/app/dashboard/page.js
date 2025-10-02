@@ -10,7 +10,7 @@ export default function DashboardPage() {
 
   const getStatusStyle = (status) => {
     switch (status) {
-      case 'higher_intent':
+      case 'exploring':
         return styles.studentStatusBlue;
       case 'shortlisting':
         return styles.studentStatusYellow;
@@ -84,7 +84,7 @@ export default function DashboardPage() {
                   <div className={`${styles.filterDot} ${styles.filterDotRed}`}></div>
                   <div className={styles.filterText}>
                     <p className={styles.filterTitle}>Higher Intent</p>
-                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'higher_intent').length} students</p>
+                    <p className={styles.filterDescription}>{students.filter(student => student.status === 'exploring').length} students</p>
                   </div>
                 </div>
               </button>
