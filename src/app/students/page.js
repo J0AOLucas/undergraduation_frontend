@@ -3,12 +3,14 @@
 import Layout from '@/components/layout/Layout';
 import styles from './students.module.css';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import api from '@/services/api';
 
 export default function StudentsPage() {
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
   const [filters, setFilters] = useState({
     search: '',
     status: '',
@@ -86,6 +88,10 @@ export default function StudentsPage() {
       country: '',
       grade: ''
     });
+  };
+
+  const handleStudentClick = (studentId) => {
+    router.push(`/students/${studentId}`);
   };
 
   const getStatusStyle = (status) => {
@@ -267,7 +273,11 @@ export default function StudentsPage() {
                       }
                     </div>
                     <div className={styles.studentInfo}>
-                      <p className={styles.studentName}>
+                      <p 
+                        className={styles.studentName}
+                        onClick={() => handleStudentClick(student.id)}
+                        style={{ cursor: 'pointer', color: '#3b82f6' }}
+                      >
                         {student.first_name && student.last_name 
                           ? `${student.first_name} ${student.last_name}`
                           : 'Unknown Student'

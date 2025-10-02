@@ -17,6 +17,7 @@ async function fetcher(url, options = {}) {
 
 const api = {
   getStudents: () => fetcher('/students'),
+  getStudent: (id) => fetcher(`/students/${id}`),
 };
 
 export default api;
