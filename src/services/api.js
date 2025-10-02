@@ -18,6 +18,11 @@ async function fetcher(url, options = {}) {
 const api = {
   getStudents: () => fetcher('/students'),
   getStudent: (id) => fetcher(`/students/${id}`),
+  createNote: (noteData) => fetcher('/internal_notes', {
+    method: 'POST',
+    body: JSON.stringify(noteData),
+  }),
+  getStudentNotes: (studentId) => fetcher(`/internal_notes?student_id=${studentId}`),
 };
 
 export default api;

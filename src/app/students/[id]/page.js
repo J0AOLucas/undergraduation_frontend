@@ -5,11 +5,14 @@ import styles from './profile.module.css';
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import api from '@/services/api';
+import NoteModal from '@/components/NoteModal/NoteModal';
 
 export default function StudentProfilePage() {
   const [student, setStudent] = useState(null);
+  const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isNoteModalOpen, setIsNoteModalOpen] = useState(false);
   const router = useRouter();
   const params = useParams();
 
@@ -36,6 +39,31 @@ export default function StudentProfilePage() {
 
     if (params.id) {
       fetchStudent();
+    }
+  }, [params.id]);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const notesData = await api.getStudentNotes(params.id);
+        console.log(notesData);
+        
+        // Handle response format
+        if (Array.isArray(notesData)) {
+          setNotes(notesData);
+        } else if (notesData && Array.isArray(notesData.data)) {
+          setNotes(notesData.data);
+        } else {
+          setNotes([]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch notes:', err);
+        setNotes([]);
+      }
+    };
+
+    if (params.id) {
+      fetchNotes();
     }
   }, [params.id]);
 
@@ -86,8 +114,31 @@ export default function StudentProfilePage() {
   };
 
   const handleAction = (action) => {
-    console.log(`Action: ${action} for student: ${student.id}`);
-    // TODO: Implement action handlers
+    if (action === 'note') {
+      setIsNoteModalOpen(true);
+    } else {
+      console.log(`Action: ${action} for student: ${student.id}`);
+      // TODO: Implement other action handlers
+    }
+  };
+
+  const handleNoteAdded = async () => {
+    // Refresh notes after adding a new one
+    try {
+      const notesData = await api.getStudentNotes(params.id);
+      
+      // Handle response format
+      if (Array.isArray(notesData)) {
+        setNotes(notesData);
+      } else if (notesData && Array.isArray(notesData.data)) {
+        setNotes(notesData.data);
+      } else {
+        setNotes([]);
+      }
+    } catch (err) {
+      console.error('Failed to refresh notes:', err);
+      setNotes([]);
+    }
   };
 
   if (isLoading) {
@@ -279,40 +330,43 @@ export default function StudentProfilePage() {
             </div>
           </div>
 
-          {/* Communication History */}
+          {/* Internal Notes */}
           <div className={styles.communicationSection}>
-            <h3 className={styles.communicationTitle}>Communication History</h3>
+            <h3 className={styles.communicationTitle}>Internal Notes</h3>
             <div className={styles.communicationList}>
-              <div className={styles.communicationItem}>
-                <div className={styles.communicationIcon}>📧</div>
-                <div className={styles.communicationContent}>
-                  <p className={styles.communicationType}>Email Sent</p>
-                  <p className={styles.communicationMessage}>Welcome email sent to new student</p>
-                  <p className={styles.communicationDate}>{formatDate(student.created_at)}</p>
+              {notes.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
+                  <p>No internal notes yet.</p>
+                  <p style={{ fontSize: '14px', marginTop: '8px' }}>
+                    Click "Add Note" above to create the first note.
+                  </p>
                 </div>
-              </div>
-
-              <div className={styles.communicationItem}>
-                <div className={styles.communicationIcon}>📞</div>
-                <div className={styles.communicationContent}>
-                  <p className={styles.communicationType}>Phone Call</p>
-                  <p className={styles.communicationMessage}>Initial consultation call completed</p>
-                  <p className={styles.communicationDate}>{formatDate(student.last_contact)}</p>
-                </div>
-              </div>
-
-              <div className={styles.communicationItem}>
-                <div className={styles.communicationIcon}>📝</div>
-                <div className={styles.communicationContent}>
-                  <p className={styles.communicationType}>Note Added</p>
-                  <p className={styles.communicationMessage}>Student showed high interest in engineering programs</p>
-                  <p className={styles.communicationDate}>{formatDate(student.updated_at)}</p>
-                </div>
-              </div>
+              ) : (
+                notes.map((note) => (
+                  <div key={note.id} className={styles.communicationItem}>
+                    <div className={styles.communicationIcon}>📝</div>
+                    <div className={styles.communicationContent}>
+                      <p className={styles.communicationType}>Internal Note</p>
+                      <p className={styles.communicationMessage}>{note.content}</p>
+                      <p className={styles.communicationDate}>
+                        By {note.author} • {formatDate(note.created_at)}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Note Modal */}
+      <NoteModal
+        isOpen={isNoteModalOpen}
+        onClose={() => setIsNoteModalOpen(false)}
+        studentId={student?.id}
+        onNoteAdded={handleNoteAdded}
+      />
     </Layout>
   );
 }
