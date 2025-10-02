@@ -3,22 +3,60 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
+import api from '@/services/api';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const router = useRouter();
+
+  const login = async () => {
+    try {
+      setError(''); // Clear previous errors
+      const response = await api.login(email, password);
+      console.log(response);
+      router.push('/dashboard');
+    } catch (err) {
+      // Handle different types of errors silently
+      if (err.message === 'Unauthorized' || err.status === 401) {
+        setError('Invalid email or password. Please try again.');
+      } else if (err.message === 'not found' || err.status === 404) {
+        setError('User not found. Please check your email.');
+      } else if (err.message === 'Network error' || err.status === 0) {
+        setError('Network error. Please check your connection and try again.');
+      } else {
+        setError('Login failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      router.push('/dashboard');
-    }, 1000);
+    // Basic validation
+    if (!email.trim()) {
+      setError('Please enter your email address.');
+      return;
+    }
+    
+    if (!password.trim()) {
+      setError('Please enter your password.');
+      return;
+    }
+    
+    setIsLoading(true);
+    login();
+  };
+
+  const handleInputChange = (setter) => (e) => {
+    setter(e.target.value);
+    if (error) {
+      setError(''); // Clear error when user starts typing
+    }
   };
 
   return (
@@ -51,7 +89,7 @@ export default function LoginPage() {
               className={styles.input}
               placeholder="Email address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange(setEmail)}
             />
             <input
               id="password"
@@ -62,9 +100,15 @@ export default function LoginPage() {
               className={styles.input}
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleInputChange(setPassword)}
             />
           </div>
+
+          {error && (
+            <div className={styles.errorMessage}>
+              {error}
+            </div>
+          )}
 
           <div className={styles.options}>
             <div className={styles.checkboxGroup}>
