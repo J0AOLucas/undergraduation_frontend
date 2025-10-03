@@ -233,6 +233,81 @@
   font-size: 14px;
 }
 
+/* Communication Tools */
+.communicationToolsSection {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.communicationToolsTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 20px 0;
+}
+
+.communicationToolsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.commToolButton {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.commToolButton:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+  transform: translateY(-1px);
+}
+
+.commToolIcon {
+  width: 24px;
+  height: 24px;
+  color: #6b7280;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.commToolButton:hover .commToolIcon {
+  color: #3b82f6;
+}
+
+.commToolContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.commToolTitle {
+  font-weight: 600;
+  color: #111827;
+  font-size: 16px;
+  margin: 0;
+}
+
+.commToolDescription {
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+}
+
 /* Communication History */
 .communicationSection {
   background: white;
@@ -487,6 +562,434 @@
   color: #6b7280;
 }
 
+/* Reminders Section */
+.remindersSection {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.remindersTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 20px 0;
+}
+
+.remindersList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reminderItem {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.reminderItem:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+}
+
+.reminderHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.reminderIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reminderIconSvg {
+  width: 20px;
+  height: 20px;
+  color: #f59e0b;
+}
+
+.reminderContent {
+  flex: 1;
+}
+
+.reminderType {
+  font-weight: 600;
+  color: #111827;
+  font-size: 16px;
+  margin: 0 0 4px 0;
+}
+
+.reminderReason {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+}
+
+.reminderDates {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reminderDate {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 0;
+}
+
+.reminderStatus {
+  display: flex;
+  align-items: center;
+}
+
+.reminderStatusBadge {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Documents Section */
+.documentsSection {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.documentsTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 20px 0;
+}
+
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.documentItem {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.documentItem:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+}
+
+.documentHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.documentIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.documentIconEmoji {
+  font-size: 24px;
+}
+
+.documentContent {
+  flex: 1;
+}
+
+.documentName {
+  font-weight: 600;
+  color: #111827;
+  font-size: 16px;
+  margin: 0 0 4px 0;
+  word-break: break-word;
+}
+
+.documentType {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+}
+
+.documentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.documentDate,
+.documentSize {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 0;
+}
+
+.documentActions {
+  display: flex;
+  align-items: center;
+}
+
+.documentDownloadButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.documentDownloadButton:hover {
+  background: #2563eb;
+}
+
+.documentDownloadIcon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0 24px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.modalCloseButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.modalCloseButton:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.modalCloseIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.modalBody {
+  padding: 0 24px 24px 24px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modalLabel {
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.modalInput,
+.modalSelect,
+.modalTextarea {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.modalInput:focus,
+.modalSelect:focus,
+.modalTextarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Date Time Picker Styles */
+.dateTimeContainer {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+}
+
+.dateInputGroup,
+.timeInputGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dateSubLabel {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modalDateInput,
+.modalTimeInput {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  background: white;
+  cursor: pointer;
+}
+
+.modalDateInput:focus,
+.modalTimeInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.modalDateInput:hover,
+.modalTimeInput:hover {
+  border-color: #9ca3af;
+}
+
+/* Custom styling for date picker */
+.modalDateInput::-webkit-calendar-picker-indicator {
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/%3e%3c/svg%3e") no-repeat center;
+  background-size: 20px 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.modalDateInput::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Custom styling for time picker */
+.modalTimeInput::-webkit-calendar-picker-indicator {
+  background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/%3e%3c/svg%3e") no-repeat center;
+  background-size: 20px 20px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.modalTimeInput::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.modalTextarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.modalButtonPrimary,
+.modalButtonSecondary {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.modalButtonPrimary {
+  background: #3b82f6;
+  color: white;
+}
+
+.modalButtonPrimary:hover {
+  background: #2563eb;
+}
+
+.modalButtonSecondary {
+  background: #f9fafb;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.modalButtonSecondary:hover {
+  background: #f3f4f6;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .profileHeader {
@@ -502,9 +1005,51 @@
     grid-template-columns: 1fr;
   }
   
+  .communicationToolsGrid {
+    grid-template-columns: 1fr;
+  }
+  
   .header {
     flex-direction: column;
     gap: 16px;
     align-items: flex-start;
+  }
+  
+  .modalContent {
+    margin: 20px;
+    max-width: none;
+  }
+  
+  .modalActions {
+    flex-direction: column;
+  }
+  
+  .modalButtonPrimary,
+  .modalButtonSecondary {
+    width: 100%;
+  }
+  
+  .dateTimeContainer {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .dateInputGroup,
+  .timeInputGroup {
+    width: 100%;
+  }
+  
+  .documentHeader {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .documentActions {
+    align-self: stretch;
+  }
+  
+  .documentDownloadButton {
+    width: 100%;
+    justify-content: center;
   }
 }

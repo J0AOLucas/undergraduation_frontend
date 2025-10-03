@@ -68,6 +68,12 @@ const api = {
   getStudentNotes: (studentId) => fetcher(`/internal_notes?student_id=${studentId}`),
   getAdmin: (adminId) => fetcher(`/admins?admin_id=${adminId}`),
   getApplications: (studentId) => fetcher(`/applications?student_id=${studentId}`),
+  getReminders: (studentId) => fetcher(`/reminders?student_id=${studentId}`),
+  createReminder: (reminderData) => fetcher('/reminders', {
+    method: 'POST',
+    body: JSON.stringify(reminderData),
+  }),
+  getStudentDocuments: (studentId) => fetcher(`/documents?student_id=${studentId}`),
 };
 
 export default api;
