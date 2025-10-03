@@ -8,11 +8,8 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: '📊' },
-    { name: 'Students', href: '/students', icon: '👥' },
-    { name: 'Communications', href: '/communications', icon: '💬' },
-    { name: 'Insights', href: '/insights', icon: '📈' },
-    { name: 'Settings', href: '/settings', icon: '⚙️' },
+    { name: 'Dashboard', href: '/dashboard', icon: '' },
+    { name: 'Students', href: '/students', icon: '' },
   ];
 
   return (
